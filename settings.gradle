@@ -1,0 +1,14 @@
+rootProject.name = "mapbox-java"
+
+include ':services'
+include ':services-core'
+include ':services-geojson'
+include ':services-directions'
+include ':services-geocoding'
+include ':services-turf'
+include ':services-optimization'
+include ':services-matrix'
+include ':services-matching'
+include ':services-staticmap'
+include 'samples'
+

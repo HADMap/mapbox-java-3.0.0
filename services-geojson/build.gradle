@@ -1,0 +1,25 @@
+apply plugin: 'java-library'
+
+dependencies {
+
+  compile project(":services-core")
+
+  // Gson
+  compile dependenciesList.gson
+
+  // Annotations
+  compileOnly dependenciesList.supportAnnotation
+
+  // AutoValue
+  compileOnly dependenciesList.autoValue
+  compileOnly dependenciesList.autoValueGson
+
+  // Test Dependencies
+  testCompile dependenciesList.okhttp3Mockwebserver
+  testCompile project(path: ':services-core', configuration: 'testOutput')
+  testCompile project(":services-turf")
+}
+
+apply from: "${rootDir}/gradle/checkstyle.gradle"
+apply from: "${rootDir}/gradle/jacoco.gradle"
+apply from: "${rootDir}/gradle/mvn-push.gradle"

@@ -1,0 +1,62 @@
+buildscript {
+  apply from: "${rootDir}/gradle/dependencies.gradle"
+
+  repositories {
+    maven { url 'https://plugins.gradle.org/m2' }
+    maven { url "https://maven.google.com" }
+    mavenCentral()
+    jcenter()
+  }
+
+  dependencies {
+
+    dependencies.create("com.puppycrawl.tools:checkstyle:${pluginVersion.checkstyle}") {
+      transitive = false
+    }
+    classpath "net.ltgt.gradle:gradle-errorprone-plugin:${pluginVersion.errorprone}"
+    classpath "gradle.plugin.de.fuerstenau:BuildConfigPlugin:${pluginVersion.buildConfigPlugin}"
+    classpath 'gradle.plugin.de.fuerstenau:BuildConfigPlugin:1.1.8'
+    classpath 'com.android.tools.build:gradle:2.3.3'
+    classpath pluginDependencies.sonarqube
+  }
+}
+
+allprojects {
+  repositories {
+    maven { url 'https://plugins.gradle.org/m2' }
+    maven { url "https://maven.google.com" }
+    mavenCentral()
+    jcenter()
+  }
+  group = GROUP
+  version = VERSION_NAME
+}
+
+subprojects {
+  apply from: "${rootDir}/gradle/dependencies.gradle"
+  apply plugin: 'java'
+  apply plugin: 'idea'
+  apply plugin: 'net.ltgt.errorprone'
+
+  // Fixes issue with test resources not being found inside Intellij
+  idea {
+    module {
+      testOutputDir = file('build/resources/test')
+    }
+  }
+
+  sourceCompatibility = "1.7"
+  targetCompatibility = "1.7"
+
+  dependencies {
+
+    errorprone dependenciesList.errorprone
+
+    // Test Dependencies
+    testCompile dependenciesList.junit
+    testCompile dependenciesList.hamcrestJunit
+  }
+}
+
+apply from: "${rootDir}/gradle/sonarqube.gradle"
+

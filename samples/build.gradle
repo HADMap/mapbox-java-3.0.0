@@ -1,0 +1,13 @@
+dependencies {
+  compile project(":services-core")
+  compile project(":services-directions")
+  compile project(":services-geocoding")
+  compile project(":services-optimization")
+  compile project(":services-geojson")
+//  compile project(":services-matching")
+  compile project(":services-staticmap")
+}
+
+sonarqube {
+  skipProject = true
+}
